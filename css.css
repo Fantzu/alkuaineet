@@ -1,0 +1,172 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    background-image: url(kuvat/tausta.png);
+    background-size: cover;
+    overflow: hidden;
+}
+
+.pelialue {
+    position: relative;
+    width: 1200px;
+    height: auto;
+    margin: 0 auto; /* Keskittää koko pelialueen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pelipohja {
+    width: 100%;
+    max-width: 1200px;
+    display: block;
+}
+
+.pelin-nimi {
+    width: 900px; /* Säädä tarpeen mukaan */
+    position: absolute;
+    left: 50%;
+    bottom: 100px; /* Määrää kuinka korkealle painikkeen yläpuolelle */
+    transform: translateX(-50%);
+}
+
+.clickable-image {
+    width: 180px;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute; /* Sijoitus suhteessa pelipohjaan */
+    left: 40%;
+    bottom: 130px; /* Alareunaan */
+    transform: translateX(-50%); /* Keskittää vaakasuunnassa */
+}
+
+.clickable-image2 {
+    width: 165px;
+    height: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute; /* Sijoitus suhteessa pelipohjaan */
+    left: 60%;
+    bottom: 142px; /* Alareunaan */
+    transform: translateX(-50%); /* Keskittää vaakasuunnassa */
+}
+
+.clickable-image2:hover {
+    transform: translateX(-50%) scale(1.1) translateY(-5px);
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+.clickable-image:hover {
+    transform: translateX(-50%) scale(1.1) translateY(-5px);
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+.stop-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #55e5ff;
+    color: rgb(17, 16, 16);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    display: block;
+    margin: 0 auto 20px auto; /* Nappulan keskitys ja alapuolelle tilaa */
+}
+
+.stop-button:hover {
+    background-color: #22d3ff;
+}
+
+#timerDisplay {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+
+
+.simple-animation {
+    width: 160px; /* Säädä oman kuvan mukaan */
+    animation: ylosAlas 2.5s ease-in-out infinite alternate;
+    position: absolute; /* Tämä siirtää kuvan vapaasti */ 
+    top: 150px;
+    left: 150px;
+}
+
+.simple-animation2 {
+    width: 160px; /* Säädä oman kuvan mukaan */
+    animation: ylosAlas 6s ease-in-out infinite alternate;
+    position: absolute; /* Tämä siirtää kuvan vapaasti */ 
+    top: 300px;
+    right: 150px;
+}
+
+.simple-animation3 {
+    width: 160px; /* Säädä oman kuvan mukaan */
+    animation: ylosAlas 4s ease-in-out infinite alternate;
+    position: absolute; /* Tämä siirtää kuvan vapaasti */ 
+    bottom:50px;
+    left: 250px;
+}
+
+
+.pelipohja {
+    width: 1200px;
+    position: center;
+}
+
+@keyframes ylosAlas {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-30px); /* Kuinka paljon haluat sen liikkuvan */
+    }
+}
+
+
+/* Pop-upin perusrakenne, piilotettuna aluksi */
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7); /* Tumma tausta */
+}
+
+/* Pop-upin sisältölaatikko */
+.popup-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    animation: fadeIn 0.5s;
+}
+
+/* Sulje-nappi */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* Pieni fade-animaatio */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
