@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <title>Alkuaineet</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div id="chemistry-game" style="text-align: center; padding: 20px; background-color: #92d9ce; border-radius: 10px;">
+        <h2 style="color: #0f4496;">Alkuaineet ja niiden kemialliset merkit</h2>
+        <p style="color: #0f4496;">Yhdistä alkuaine sen kirjainlyhenteeseen!</p>
+        <div id="game-area">
+            <div id="element"></div>
+            <div id="options"></div>
+        </div>
+        <button id="start-btn"></button>
+        <div id="timer" style="color: #0f4496; font-size: 20px; margin-top: 20px;"></div>
+        <div id="result" style="color: #0f4496; font-size: 20px; margin-top: 20px;"></div>
+    </div>
+
+    <div class="animaatiot">
+
+        <img src="kuvat/yksittainenkoeputki.png" alt="animoitutausta" class="simple-animation">
+        <img src="kuvat/koeputki2.png" alt="animoitutausta" class="simple-animation2">
+        <img src="kuvat/koeputki3.png" alt="animoitutausta" class="simple-animation3">
+    
+    </div>
+
+</body>
+
+<style>
+    #chemistry-game {
+        font-family: Arial, sans-serif;
+        max-width: 700px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    
+    }
+    #element {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px 0;
+        color: #0f4496;
+    }
+    #options {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        gap: 10px; /* Lisää tilaa nappuloiden väliin */
+    
+    }
+    .option-btn {
+        background-color: #feeb0d;
+        color: #0f4496;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    .option-btn:hover {
+        background-color: #0f4496;
+        color: #feeb0d;
+    }
+    #timer, #result {
+        font-weight: bold;
+    }
+
+    /* Uudet tyylit nappulalle */
+    #start-btn {
+        background-image: url('kuvat/nappula-removebg-preview.png'); /* Lisää kuvan polku */
+        background-size: cover; /* Skaalaa kuva sopivaksi napin kokoiseksi */
+        background-color: transparent; /* Poista taustaväri */
+        border: none; /* Poista reunus */
+        width: 150px; /* Aseta napin leveys */
+        height: 70px; /* Aseta napin korkeus */
+        cursor: pointer; /* Näytä osoitin, kun hiiri on napin päällä */
+    }
+
+    #start-btn:hover {
+        transform: scale(1.1) translateY(-5px);
+        filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+    }
+
+    /* Piilota nappi, kun se on disabloitu */
+    #start-btn:disabled {
+        display: none;
+}
+</style>
+
+<script>
+    const elements = [
+        { name: "Vety", symbol: "H" },
+        { name: "Helium", symbol: "He" },
+        { name: "Litium", symbol: "Li" },
+        { name: "Beryllium", symbol: "Be" },
+        { name: "Boori", symbol: "B" },
+        { name: "Hiili", symbol: "C" },
+        { name: "Typpi", symbol: "N" },
+        { name: "Happi", symbol: "O" },
+        { name: "Fluori", symbol: "F" },
+        { name: "Neon", symbol: "Ne" }
+    ];
+
+    let currentElementIndex = 0;
+    let startTime;
+    let timerInterval;
+
+    document.getElementById('start-btn').addEventListener('click', startGame);
+
+    function startGame() {
+        document.getElementById('start-btn').disabled = true;
+        currentElementIndex = 0;
+        document.getElementById('result').textContent = ""; // Nollaa tulosviesti
+        document.getElementById('timer').textContent = ""; // Nollaa aika
+        startTime = new Date();
+        timerInterval = setInterval(updateTimer, 1000);
+        showNextElement();
+    }
+
+    function showNextElement() {
+        const elementDiv = document.getElementById('element');
+        const optionsDiv = document.getElementById('options');
+        const currentElement = elements[currentElementIndex];
+
+        elementDiv.textContent = currentElement.name;
+        optionsDiv.innerHTML = '';
+
+        const symbols = elements.map(e => e.symbol);
+        const shuffledSymbols = shuffle(symbols);
+
+        shuffledSymbols.forEach(symbol => {
+            const button = document.createElement('button');
+            button.textContent = symbol;
+            button.classList.add('option-btn');
+            button.addEventListener('click', () => checkAnswer(symbol));
+            optionsDiv.appendChild(button);
+        });
+    }
+
+    function checkAnswer(selectedSymbol) {
+        const currentElement = elements[currentElementIndex];
+        const resultDiv = document.getElementById('result');
+        
+        if (selectedSymbol === currentElement.symbol) {
+            currentElementIndex++;
+            resultDiv.textContent = ""; // Tyhjennä väärän vastauksen viesti
+            
+            if (currentElementIndex < elements.length) {
+                showNextElement();
+            } else {
+                endGame();
+            }
+        } else {
+            resultDiv.textContent = "Väärin! Yritä uudelleen.";
+        }
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        const endTime = new Date();
+        const totalTime = Math.floor((endTime - startTime) / 1000);
+        document.getElementById('result').textContent = `Onneksi olkoon! Pääsit läpi ajassa ${totalTime} sekuntia!`;
+        document.getElementById('start-btn').disabled = false;
+    }
+
+    function updateTimer() {
+        const currentTime = new Date();
+        const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+        document.getElementById('timer').textContent = `Aika: ${elapsedTime} sekuntia`;
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+</script>
